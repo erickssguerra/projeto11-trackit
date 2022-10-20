@@ -3,33 +3,23 @@ import styled from "styled-components"
 import { buildStyles, CircularProgressbarWithChildren } from "react-circular-progressbar"
 
 export default function Footer() {
-    const value = 66;
-
 
     return (
         <FooterBar>
             <h1><Link to="/habitos">Hábitos</Link></h1>
-            <CircularProgressbarWithChildren
+            <Link to="/hoje"><CircularProgressbarWithChildren
                 value={50}
+                background
                 backgroundPadding={6}
                 styles={buildStyles({
-                    backgroundColor: "#52bf6ff",
+                    backgroundColor: "#3e98c7",
                     textColor: "#fff",
                     pathColor: "#fff",
                     trailColor: "transparent",
-                    strokeLinecap: "round"
-
-                })
-
-
-                }
-            >
-
-
-            </CircularProgressbarWithChildren >
-
-
-
+                    strokeLinecap: 'round'
+                })}
+            ><p>Hoje</p>
+            </CircularProgressbarWithChildren ></Link>
             <h1><Link to="/historico">Histórico</Link></h1>
         </FooterBar>
     )
@@ -45,24 +35,30 @@ const FooterBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    div {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 60px;
-        background-color: #52B6FF;
-        border-radius: 50%;
-    }
+    box-shadow: 2px 2px 20px black;
+
     svg{
-        width: 100px;
-        height: 100px;
-        margin-bottom: 60px;
+        width: 91px;
+        height: 91px;
+        margin-bottom: 60px; 
     }
 
     h1 {
         width: 50%;
         text-align: center;
+        font-size: 18px;
         color: #52B6FF;
+    }
+    a {
+        color:  #52B6FF;
+    }
+
+    p {
+        margin-bottom: 190px;
+        color: white;
         font-size: 18px;
     }
-    
+
+  
+
 `

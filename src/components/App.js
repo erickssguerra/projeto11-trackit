@@ -5,6 +5,7 @@ import TodayPage from "./Pages/Today/TodayPage";
 import RegisterPage from "./Pages/Home/RegisterPage";
 import AuthProvider from "../context/Auth";
 import HabitsPage from "./Pages/Habits/HabitsPage";
+import HistoryPage from "./Pages/History/HistoryPage";
 
 
 
@@ -18,6 +19,7 @@ export default function App() {
                     <Route path="/cadastro" element={<RegisterPage />} />
                     <Route path="/hoje" element={<TodayPage />} />
                     <Route path="/habitos" element={<HabitsPage />} />
+                    <Route path="/historico" element={<HistoryPage />} />
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

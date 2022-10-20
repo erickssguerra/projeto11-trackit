@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 export const HomeStyle = styled.div`
+    height: 100vh;
+    background-color: white;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     img {
         width: 100px;

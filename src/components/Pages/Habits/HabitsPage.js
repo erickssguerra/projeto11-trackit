@@ -1,21 +1,66 @@
 import Header from "../../Header";
 import styled from "styled-components";
-import HabitCard from "./HabitCard";
+import NewHabitCard from "./NewHabitCard";
 import Footer from "../../Footer";
+import { MessageNoHabits, URL } from "../../../assets/constants";
+import HabitCard from "./HabitCard";
+import axios from "axios";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../../context/Auth";
+import { useNavigate } from "react-router-dom";
+
+//criar
+//puxar
+//deletar
+
 
 export default function HabitsPage() {
+    const { token, update } = useContext(AuthContext)
+    const [habits, setHabits] = useState([])
+    const [newHabit, setNewHabit] = useState(false)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        function tratarSucesso(response) {
+            setHabits(response.data)
+
+        }
+
+        function tratarErro(error) {
+            alert(error.response.data.message)
+            navigate("/")
+            window.location.reload()
+        }
+
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        const promise = axios.get(URL + "/habits", config)
+        promise.then(tratarSucesso)
+        promise.catch(tratarErro)
+    }, [update])
+
+    console.log(habits)
+
+    function createHabit() {
+        setNewHabit(true)
+    }
+
     return (
         <>
             <Header />
             <HabitsContainer>
                 <TopContainer>
                     <h1>Meus hábitos</h1>
-                    <div><h2>+</h2></div>
+                    <div onClick={createHabit}><h2>+</h2></div>
                 </TopContainer>
-                <ul>
-                    <HabitCard />
 
-                </ul>
+                <NewHabitCard setNewHabit={setNewHabit} newHabit={newHabit} />
+                {habits.length === 0 ? <NoHabits>{MessageNoHabits}</NoHabits> :
+                    <ul>
+
+                        {habits.map((habit) => <HabitCard habit={habit} key={habits.id} />)}
+                    </ul>}
             </HabitsContainer>
             <Footer />
         </>
@@ -23,8 +68,8 @@ export default function HabitsPage() {
 }
 
 const HabitsContainer = styled.div`
-    background-color: #F2F2F2;
-    height: 100vh;
+ 
+    height: 100%;
     padding: 100px 18px;
     display: flex;
     flex-direction: column;
@@ -62,4 +107,12 @@ const TopContainer = styled.div`
             cursor: pointer;   
         }
 }
+`
+
+const NoHabits = styled.p`
+    margin-top: 28px;
+    color: #666666;
+    font-size: 18px;
+    line-height: 24px;
+
 `

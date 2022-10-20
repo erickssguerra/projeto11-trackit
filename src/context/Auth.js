@@ -9,9 +9,10 @@ function AuthProvider({ children }) {
     const [token, setToken] = useState("");
     const [image, setImage] = useState("");
     const [username, setUsername] = useState("")
+    const [update, setUpdate] = useState([])
 
     return (
-        <AuthContext.Provider value={{ token, setToken, image, setImage, username, setUsername }}>
+        <AuthContext.Provider value={{ token, setToken, image, setImage, username, setUsername, update, setUpdate }}>
             {children}
         </AuthContext.Provider>
     )

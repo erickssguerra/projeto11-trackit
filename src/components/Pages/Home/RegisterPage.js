@@ -22,7 +22,7 @@ export default function RegisterPage() {
         promise.then(() => {
             navigate("/")
         })
-        promise.catch(err => alert(err.response.data))
+        promise.catch(err => alert(err.response.data.message))
     }
 
     return (
@@ -61,7 +61,7 @@ export default function RegisterPage() {
                     required
                     name="image" />
                 <button type="submit">
-                    Entrar
+                    Cadastrar
                 </button>
             </form>
             <Link to="/"><p>Já tem uma conta? Faça login!</p></Link>

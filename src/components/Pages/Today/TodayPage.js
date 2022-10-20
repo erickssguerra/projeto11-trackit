@@ -2,15 +2,20 @@ import Header from "../../Header"
 import styled from "styled-components"
 import DayCard from "./DayCard"
 import Footer from "../../Footer"
+import dayjs from "dayjs"
+import 'dayjs/locale/pt-br';
 
 
 
 export default function TodayPage() {
+    let today = dayjs().locale("pt-br").format("dddd, D/MM")
+    today = today[0].toUpperCase() + today.substring(1).replace('-feira', '');
+
     return (
         <>
             <Header />
             <TodayContainer>
-                <h1>Segunda, 17/05</h1>
+                <h1>{today}</h1>
                 <h2>Nenhum hábito concluído ainda</h2>
                 <ul>
                     <DayCard />
