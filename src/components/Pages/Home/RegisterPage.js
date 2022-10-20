@@ -64,7 +64,7 @@ export default function RegisterPage() {
                     Entrar
                 </button>
             </form>
-            <Link to="/"><p>Não tem uma conta? Cadastre-se!</p></Link>
+            <Link to="/"><p>Já tem uma conta? Faça login!</p></Link>
 
         </HomeStyle>
     )

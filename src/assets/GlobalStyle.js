@@ -20,6 +20,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font-family: 'Lexend Deca';
 	vertical-align: baseline;
+	
 }
 
 a{
