@@ -10,7 +10,7 @@ import { AuthContext } from "../../../context/Auth";
 import { useNavigate } from "react-router-dom";
 
 export default function HabitsPage() {
-    const { token, update, valor } = useContext(AuthContext)
+    const { token, update, concluded } = useContext(AuthContext)
     const [habits, setHabits] = useState([])
     const [newHabit, setNewHabit] = useState(false)
     const navigate = useNavigate()
@@ -56,7 +56,7 @@ export default function HabitsPage() {
                         {habits.map((habit) => <HabitCard habit={habit} key={habit.id} />)}
                     </ul>}
             </HabitsContainer>
-            <Footer percentage={valor} />
+            <Footer percentage={concluded} />
         </>
     )
 }

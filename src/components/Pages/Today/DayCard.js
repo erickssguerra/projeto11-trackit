@@ -11,7 +11,6 @@ export default function DayCard({ cards }) {
         headers: { Authorization: `Bearer ${token}` }
     }
 
-
     function select(boolean, id) {
         if (boolean) {
             const promise = axios.post(URL + `/habits/${id}/uncheck`, null, config)
@@ -34,11 +33,28 @@ export default function DayCard({ cards }) {
     return (
         <>
             {cards.map((card) =>
-                <DayCardContainer isDone={card.done} key={card.id}>
+                <DayCardContainer
+                    isDone={card.done}
+                    key={card.id}
+
+                >
                     <InfoDayCard>
                         <h4>{card.name}</h4>
-                        <p>Sequência atual: <span>{card.currentSequence}</span></p>
-                        <p>Seu record: <span>{card.highestSequence}</span></p>
+                        <p>Sequência atual:
+                            <CurrentSequence
+                                isDone={card.done} >
+                                {card.currentSequence}
+                            </CurrentSequence>
+                        </p>
+                        <p>Seu record:
+                            <HighestSequence
+                                isRecord={(
+                                    card.done === true
+                                    && card.currentSequence === card.highestSequence
+                                    && card.highestSequence > 0)} >
+                                {card.highestSequence}
+                            </HighestSequence>
+                        </p>
                     </InfoDayCard>
                     <ion-icon onClick={() => select(card.done, card.id)} name="checkbox"></ion-icon>
                 </DayCardContainer>
@@ -77,9 +93,20 @@ const InfoDayCard = styled.div`
         font-size: 13px;
         line-height: 16px;
         color: #666666;
+        margin-right: 10px;
+    }
+    span {
+        margin-left: 2px;
     }
 
-    span {
-      
-    }
+ 
+`
+const CurrentSequence = styled.span`
+    color: ${({ isDone }) => isDone ? "#8FC549" : "#666666"};
+    
+`
+
+const HighestSequence = styled.span`
+    color: ${({ isRecord }) => isRecord ? "#8FC549" : "#666666"};
+    
 `

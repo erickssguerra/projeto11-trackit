@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { weekdays, URL } from "../../../assets/constants"
 import axios from "axios"
 import { AuthContext } from "../../../context/Auth"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 export default function HabitCard({ habit }) {
 
@@ -33,16 +33,13 @@ export default function HabitCard({ habit }) {
 
             <ContainerWeekdays>
                 {weekdays.map((day, index) =>
-
                     <Weekday
                         booleano={variavel.includes(index)}
+                        isCursorPointer={false}
                         key={index} >
                         {day}
                     </Weekday>)}
             </ContainerWeekdays>
-
-
-
         </HabitCardContainer>
     )
 }
@@ -60,9 +57,6 @@ const Weekday = styled.div`
     background-color: ${({ booleano }) => booleano ? "#CFCFCF" : "white"};
 `
 
-
-
-
 const HabitCardContainer = styled.li`
 
     width: 100%;
@@ -73,14 +67,10 @@ const HabitCardContainer = styled.li`
     padding: 18px;
     display: flex;
     flex-direction: column;
- 
-    
 `
 const ContainerWeekdays = styled.div`
     display: flex;
     justify-content: flex-start;
- 
-
 `
 const TopContainer = styled.div`
     display: flex;
@@ -90,5 +80,7 @@ const TopContainer = styled.div`
     margin-bottom: 8px;
     ion-icon {
         cursor: pointer;
+        position: absolute;
+        right: 28px;
     }
 `

@@ -4,6 +4,7 @@ import Weekday from "./Weekday"
 import axios from "axios"
 import { URL } from "../../../assets/constants"
 import { AuthContext } from "../../../context/Auth"
+import { ThreeDots } from "react-loader-spinner"
 
 
 export default function NewHabitCard({ newHabit, setNewHabit }) {
@@ -13,6 +14,8 @@ export default function NewHabitCard({ newHabit, setNewHabit }) {
     }
     const [arrayWeekdays, setArrayWeekdays] = useState([])
     const [form, setForm] = useState({ name: "", days: "" })
+    const [isBlocked, setIsBlocked] = useState(false)
+    // const [isCursorPointer, setIsCursorPointer] = useState(true)
 
     function inputControl(e) {
         setForm({
@@ -21,18 +24,25 @@ export default function NewHabitCard({ newHabit, setNewHabit }) {
     }
 
     function save(e) {
+        setIsBlocked(true);
         e.preventDefault();
-
-        const promise = axios.post(URL + "/habits", { ...form, days: arrayWeekdays }, config)
-        promise.then((res) => {
-            setForm({ name: "", days: "" })
-            setArrayWeekdays([]);
-            setNewHabit(true);
-            setUpdate([]);
+        if (arrayWeekdays.length === 0) {
+            setIsBlocked(false)
+            alert("Selecione pelo menos um dia para poder salvar")
         }
+        else {
+            const promise = axios.post(URL + "/habits", { ...form, days: arrayWeekdays }, config)
+            promise.then((res) => {
+                setForm({ name: "", days: "" })
+                setArrayWeekdays([]);
+                setNewHabit(false);
+                setUpdate([]);
+                setIsBlocked(false);
+            }
 
-        )
-        promise.catch((err) => alert(err.response.data.message))
+            )
+            promise.catch((err) => alert(err.response.data.message))
+        }
     }
 
     function selectedDays(index) {
@@ -59,13 +69,14 @@ export default function NewHabitCard({ newHabit, setNewHabit }) {
                     onChange={inputControl}
                     value={form.name}
                     required
+                    disabled={isBlocked}
                 />
                 <ContainerWeekdays>
-                    <Weekday arrayWeekdays={arrayWeekdays} selectedDays={selectedDays} />
+                    <Weekday isCursorPointer={true} arrayWeekdays={arrayWeekdays} selectedDays={selectedDays} />
                 </ContainerWeekdays>
                 <ContainerButtons>
                     <Button cancel={true} onClick={cancel}>Cancelar</Button>
-                    <Button cancel={false} >Salvar</Button>
+                    <Button cancel={false} >{isBlocked ? <ThreeDots color="#FFF" height="10" /> : "Salvar"}</Button>
                 </ContainerButtons>
             </form>
 
@@ -120,6 +131,9 @@ const ContainerButtons = styled.div`
     margin-top: 30px;
 `
 const Button = styled.button`
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-left: 20px;
         border: none;
         font-size: 16px;

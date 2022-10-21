@@ -10,7 +10,7 @@ function AuthProvider({ children }) {
     const [image, setImage] = useState("");
     const [username, setUsername] = useState("")
     const [update, setUpdate] = useState([])
-    const [valor, setValor] = useState(0)
+    const [concluded, setConcluded] = useState(0)
 
     return (
         <AuthContext.Provider value={{
@@ -18,8 +18,7 @@ function AuthProvider({ children }) {
             image, setImage,
             username, setUsername,
             update, setUpdate,
-            valor, setValor,
-
+            concluded, setConcluded,
         }}>
             {children}
         </AuthContext.Provider>

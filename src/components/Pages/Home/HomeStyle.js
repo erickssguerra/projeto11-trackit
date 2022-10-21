@@ -49,6 +49,9 @@ export const HomeStyle = styled.div`
         color: white;
         font-size: 21px;
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
     }
 

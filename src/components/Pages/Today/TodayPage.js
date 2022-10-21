@@ -10,9 +10,6 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { URL } from "../../../assets/constants"
 
-
-
-
 export default function TodayPage() {
     let today = dayjs().locale("pt-br").format("dddd, D/MM")
     today = today[0].toUpperCase() + today.substring(1).replace('-feira', '')
@@ -20,15 +17,12 @@ export default function TodayPage() {
     const [status, setStatus] = useState([])
 
     const navigate = useNavigate()
-    const { token, update, setValor, valor } = useContext(AuthContext)
-
-
+    const { token, update, setConcluded, concluded } = useContext(AuthContext)
 
     useEffect(() => {
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         }
-
 
         function inCaseOfSuccess(response) {
             setCards(response.data)
@@ -37,10 +31,10 @@ export default function TodayPage() {
             if (cardsDone.length !== 0) {
 
                 let percentage = (cardsDone.length / response.data.length * 100).toFixed(0)
-                setValor(percentage)
+                setConcluded(percentage)
             } else {
                 let percentage = 0;
-                setValor(percentage)
+                setConcluded(percentage)
             }
             console.log(cardsDone)
         }
@@ -55,7 +49,6 @@ export default function TodayPage() {
         promise.then(inCaseOfSuccess);
         promise.catch(inCaseOfError);
 
-
     }, [update, navigate, token])
 
 
@@ -68,13 +61,13 @@ export default function TodayPage() {
                     status.length === 0 ?
                         <h2>Nenhum hábito concluído</h2>
                         :
-                        <h3>{valor} % dos hábitos concluídos</h3>
+                        <h3>{concluded} % dos hábitos concluídos</h3>
                 }
                 <ul>
                     <DayCard cards={cards} />
                 </ul>
             </TodayContainer>
-            <Footer percentage={valor} />
+            <Footer percentage={concluded} />
         </>
     )
 }
@@ -87,7 +80,6 @@ const TodayContainer = styled.div`
         color: #126BA5;
         font-size: 23px;
         line-height: 29px;
-        
     }
     h2 {
         color: #BABABA;

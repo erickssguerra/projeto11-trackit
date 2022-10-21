@@ -5,11 +5,15 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { ThreeDots } from "react-loader-spinner"
 
 export default function RegisterPage() {
 
     const [form, setForm] = useState({ email: "", name: "", image: "", password: "" })
     const navigate = useNavigate();
+    const [isBlocked, setIsBlocked] = useState(false)
+
+
     function inputControl(e) {
         setForm({
             ...form, [e.target.name]: e.target.value
@@ -18,11 +22,15 @@ export default function RegisterPage() {
 
     function signup(e) {
         e.preventDefault();
+        setIsBlocked(true)
         const promise = axios.post(URL + "/auth/sign-up", form);
         promise.then(() => {
             navigate("/")
         })
-        promise.catch(err => alert(err.response.data.message))
+        promise.catch(err => {
+            alert(err.response.data.message)
+            setIsBlocked(false)
+        })
     }
 
     return (
@@ -37,6 +45,7 @@ export default function RegisterPage() {
                     value={form.email}
                     required
                     name="email"
+                    disabled={isBlocked}
                 />
                 <input
                     placeholder="senha"
@@ -45,6 +54,7 @@ export default function RegisterPage() {
                     value={form.password}
                     required
                     name="password"
+                    disabled={isBlocked}
                 />
                 <input
                     placeholder="nome"
@@ -52,16 +62,20 @@ export default function RegisterPage() {
                     onChange={inputControl}
                     value={form.name}
                     required
-                    name="name" />
+                    name="name"
+                    disabled={isBlocked}
+                />
                 <input
                     placeholder="URL da foto"
                     type="url"
                     onChange={inputControl}
                     value={form.image}
                     required
-                    name="image" />
+                    name="image"
+                    disabled={isBlocked}
+                />
                 <button type="submit">
-                    Cadastrar
+                    {isBlocked ? <ThreeDots color="#FFF" /> : "Cadastrar"}
                 </button>
             </form>
             <Link to="/"><p>Já tem uma conta? Faça login!</p></Link>
