@@ -1,15 +1,49 @@
 import styled from "styled-components"
+import { AuthContext } from "../../../context/Auth"
+import { useContext } from "react"
+import { URL } from "../../../assets/constants"
+import axios from "axios"
 
-export default function DayCard() {
+export default function DayCard({ cards }) {
+
+    const { token, setUpdate } = useContext(AuthContext)
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+
+    function select(boolean, id) {
+        if (boolean) {
+            const promise = axios.post(URL + `/habits/${id}/uncheck`, null, config)
+            promise.then((res) => {
+                setUpdate([])
+            })
+            promise.catch((err) => console.log(err.response))
+
+
+        } else {
+            const promise = axios.post(URL + `/habits/${id}/check`, null, config)
+            promise.then((res) => {
+                setUpdate([])
+            })
+            promise.catch((err) => console.log(err.response))
+        }
+    }
+
+
     return (
-        <DayCardContainer>
-            <InfoDayCard>
-                <h3>Ler 1 capítulo de livro</h3>
-                <p>Sequência atual: 4 dias</p>
-                <p>Seu record: 5 dias</p>
-            </InfoDayCard>
-            <ion-icon name="checkbox"></ion-icon>
-        </DayCardContainer>
+        <>
+            {cards.map((card) =>
+                <DayCardContainer isDone={card.done} key={card.id}>
+                    <InfoDayCard>
+                        <h4>{card.name}</h4>
+                        <p>Sequência atual: <span>{card.currentSequence}</span></p>
+                        <p>Seu record: <span>{card.highestSequence}</span></p>
+                    </InfoDayCard>
+                    <ion-icon onClick={() => select(card.done, card.id)} name="checkbox"></ion-icon>
+                </DayCardContainer>
+            )}
+        </>
     )
 }
 
@@ -27,15 +61,13 @@ const DayCardContainer = styled.li`
 
     ion-icon {
         font-size: 70px;
-        color: #E7E7E7;
+        color: ${({ isDone }) => isDone ? "#8FC549" : "#E7E7E7"};
+        cursor: pointer;
     }
 
 `
-
 const InfoDayCard = styled.div`
-      
-      
-    h3{
+    h4{
         font-size: 20px;
         margin-bottom: 7px;
         color: #666666;
@@ -45,5 +77,9 @@ const InfoDayCard = styled.div`
         font-size: 13px;
         line-height: 16px;
         color: #666666;
+    }
+
+    span {
+      
     }
 `

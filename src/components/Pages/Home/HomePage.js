@@ -27,7 +27,6 @@ export default function HomePage() {
             setImage(res.data.image);
             setUsername(res.data.name);
             navigate("/hoje")
-            console.log(res.data)
         });
         promise.catch((err) => alert(err.response.data.message));
     }

@@ -2,11 +2,12 @@ import styled from "styled-components"
 import { weekdays } from "../../../assets/constants"
 
 export default function Weekday({ arrayWeekdays, selectedDays }) {
-    console.log(arrayWeekdays)
+
     return (
         <>
             {weekdays.map((day, index) =>
                 <DayBox
+                    key={index}
                     onClick={() => { selectedDays(index) }}
                     booleano={arrayWeekdays.includes(index)} >
                     {day}

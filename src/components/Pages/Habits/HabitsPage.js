@@ -9,13 +9,8 @@ import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../../context/Auth";
 import { useNavigate } from "react-router-dom";
 
-//criar
-//puxar
-//deletar
-
-
 export default function HabitsPage() {
-    const { token, update } = useContext(AuthContext)
+    const { token, update, valor } = useContext(AuthContext)
     const [habits, setHabits] = useState([])
     const [newHabit, setNewHabit] = useState(false)
     const navigate = useNavigate()
@@ -38,9 +33,9 @@ export default function HabitsPage() {
         const promise = axios.get(URL + "/habits", config)
         promise.then(tratarSucesso)
         promise.catch(tratarErro)
-    }, [update])
+    }, [update, token, navigate])
 
-    console.log(habits)
+
 
     function createHabit() {
         setNewHabit(true)
@@ -58,11 +53,10 @@ export default function HabitsPage() {
                 <NewHabitCard setNewHabit={setNewHabit} newHabit={newHabit} />
                 {habits.length === 0 ? <NoHabits>{MessageNoHabits}</NoHabits> :
                     <ul>
-
-                        {habits.map((habit) => <HabitCard habit={habit} key={habits.id} />)}
+                        {habits.map((habit) => <HabitCard habit={habit} key={habit.id} />)}
                     </ul>}
             </HabitsContainer>
-            <Footer />
+            <Footer percentage={valor} />
         </>
     )
 }
@@ -108,7 +102,6 @@ const TopContainer = styled.div`
         }
 }
 `
-
 const NoHabits = styled.p`
     margin-top: 28px;
     color: #666666;

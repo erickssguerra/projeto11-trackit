@@ -8,25 +8,18 @@ import { AuthContext } from "../../../context/Auth"
 
 export default function NewHabitCard({ newHabit, setNewHabit }) {
     const { token, setUpdate } = useContext(AuthContext)
-
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     }
-
     const [arrayWeekdays, setArrayWeekdays] = useState([])
     const [form, setForm] = useState({ name: "", days: "" })
-    console.log(arrayWeekdays)
 
     function inputControl(e) {
         setForm({
             ...form, [e.target.name]: e.target.value,
-
         })
     }
 
-
-
-    console.log(form)
     function save(e) {
         e.preventDefault();
 
@@ -40,8 +33,6 @@ export default function NewHabitCard({ newHabit, setNewHabit }) {
 
         )
         promise.catch((err) => alert(err.response.data.message))
-
-
     }
 
     function selectedDays(index) {

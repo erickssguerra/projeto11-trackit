@@ -1,8 +1,24 @@
 import Header from "../../Header";
 import styled from "styled-components";
 import Footer from "../../Footer";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../../context/Auth";
+import { useNavigate } from "react-router-dom";
 
 export default function HistoryPage() {
+    const { valor, token } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (token === "") {
+            alert("Sua sessão expirou!")
+            navigate("/")
+            window.location.reload()
+
+        }
+
+    }, [])
+
     return (
         <>
             <Header />
@@ -10,7 +26,7 @@ export default function HistoryPage() {
                 <h1>Histórico</h1>
                 <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
             </HistoryContainer>
-            <Footer />
+            <Footer percentage={valor} />
         </>
     )
 }
