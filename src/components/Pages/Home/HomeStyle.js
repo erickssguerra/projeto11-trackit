@@ -2,16 +2,18 @@ import styled from "styled-components";
 
 export const HomeStyle = styled.div`
     height: 100vh;
-    background-color: white;
     width: 100%;
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    
     img {
         width: 100px;
-        margin-top: 70px;
         cursor:pointer;
     }
+
     h1 {
         font-family: "Playball";
         font-size: 70px;
@@ -19,6 +21,7 @@ export const HomeStyle = styled.div`
         margin-bottom: 33px;
         cursor: pointer;
     }
+
     form {
         display: flex;
         flex-direction: column;
@@ -40,6 +43,7 @@ export const HomeStyle = styled.div`
             padding: 10px;
         }
     }
+
     button {
         width: 300px;
         height: 45px;
@@ -52,7 +56,6 @@ export const HomeStyle = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-
     }
 
     p{

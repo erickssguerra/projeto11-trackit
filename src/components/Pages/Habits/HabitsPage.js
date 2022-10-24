@@ -1,13 +1,14 @@
-import Header from "../../Header";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
+
+import Header from "../../Header";
 import NewHabitCard from "./NewHabitCard";
 import Footer from "../../Footer";
-import { MessageNoHabits, URL } from "../../../assets/constants";
+import { MessageNoHabits, errorMessage, URL } from "../../../assets/constants";
 import HabitCard from "./HabitCard";
-import axios from "axios";
-import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../../context/Auth";
-import { useNavigate } from "react-router-dom";
 
 export default function HabitsPage() {
     const { token, update, concluded } = useContext(AuthContext)
@@ -18,11 +19,10 @@ export default function HabitsPage() {
     useEffect(() => {
         function tratarSucesso(response) {
             setHabits(response.data)
-
         }
 
         function tratarErro(error) {
-            alert(error.response.data.message)
+            alert(errorMessage)
             navigate("/")
             window.location.reload()
         }
@@ -35,8 +35,6 @@ export default function HabitsPage() {
         promise.catch(tratarErro)
     }, [update, token, navigate])
 
-
-
     function createHabit() {
         setNewHabit(true)
     }
@@ -47,11 +45,13 @@ export default function HabitsPage() {
             <HabitsContainer>
                 <TopContainer>
                     <h1>Meus hábitos</h1>
-                    <div onClick={createHabit}><h2>+</h2></div>
+                    <div data-identifier="create-habit-btn" onClick={createHabit}>
+                        <h2>+</h2>
+                    </div>
                 </TopContainer>
 
                 <NewHabitCard setNewHabit={setNewHabit} newHabit={newHabit} />
-                {habits.length === 0 ? <NoHabits>{MessageNoHabits}</NoHabits> :
+                {habits.length === 0 ? <p data-identifier="no-habit-message" >{MessageNoHabits}</p> :
                     <ul>
                         {habits.map((habit) => <HabitCard habit={habit} key={habit.id} />)}
                     </ul>}
@@ -75,6 +75,13 @@ const HabitsContainer = styled.div`
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
+    }
+
+    p {
+        margin-top: 28px;
+        color: #666666;
+        font-size: 18px;
+        line-height: 24px;
     }
     
 `
@@ -101,11 +108,4 @@ const TopContainer = styled.div`
             cursor: pointer;   
         }
 }
-`
-const NoHabits = styled.p`
-    margin-top: 28px;
-    color: #666666;
-    font-size: 18px;
-    line-height: 24px;
-
 `

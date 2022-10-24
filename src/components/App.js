@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import GlobalStyle from "../assets/GlobalStyle";
 import HomePage from "./Pages/Home/HomePage";
 import TodayPage from "./Pages/Today/TodayPage";

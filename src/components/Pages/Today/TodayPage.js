@@ -1,56 +1,53 @@
-import Header from "../../Header"
-import styled from "styled-components"
-import DayCard from "./DayCard"
-import Footer from "../../Footer"
-import dayjs from "dayjs"
-import 'dayjs/locale/pt-br';
-import { AuthContext } from "../../../context/Auth"
 import { useContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { URL } from "../../../assets/constants"
+import styled from "styled-components"
+import dayjs from "dayjs"
+import 'dayjs/locale/pt-br';
+
+import Header from "../../Header"
+import DayCard from "./DayCard"
+import Footer from "../../Footer"
+import { AuthContext } from "../../../context/Auth"
+import { URL, errorMessage } from "../../../assets/constants"
 
 export default function TodayPage() {
-    let today = dayjs().locale("pt-br").format("dddd, D/MM")
-    today = today[0].toUpperCase() + today.substring(1).replace('-feira', '')
-    const [cards, setCards] = useState([])
-    const [status, setStatus] = useState([])
-
-    const navigate = useNavigate()
-    const { token, update, setConcluded, concluded } = useContext(AuthContext)
+    const { token, update, setConcluded, concluded } = useContext(AuthContext);
+    let today = dayjs().locale("pt-br").format("dddd, D/MM");
+    today = today[0].toUpperCase() + today.substring(1).replace('-feira', '');
+    const navigate = useNavigate();
+    const [cards, setCards] = useState([]);
+    const [statusCards, setStatusCards] = useState([]);
 
     useEffect(() => {
         const config = {
             headers: { Authorization: `Bearer ${token}` }
-        }
+        };
 
         function inCaseOfSuccess(response) {
-            setCards(response.data)
-            let cardsDone = response.data.filter(card => card.done)
-            setStatus(cardsDone)
+            setCards(response.data);
+            let cardsDone = response.data.filter(card => card.done);
+            setStatusCards(cardsDone);
             if (cardsDone.length !== 0) {
-
-                let percentage = (cardsDone.length / response.data.length * 100).toFixed(0)
-                setConcluded(percentage)
+                let percentage = (cardsDone.length / response.data.length * 100).toFixed(0);
+                setConcluded(percentage);
             } else {
                 let percentage = 0;
-                setConcluded(percentage)
+                setConcluded(percentage);
             }
-            console.log(cardsDone)
         }
 
         function inCaseOfError(error) {
-            alert(error.response.data.message)
-            navigate("/")
-            window.location.reload()
+            alert(errorMessage);
+            navigate("/");
+            window.location.reload();
         }
 
-        const promise = axios.get(URL + "/habits/today", config)
+        const promise = axios.get(URL + "/habits/today", config);
         promise.then(inCaseOfSuccess);
         promise.catch(inCaseOfError);
 
-    }, [update, navigate, token])
-
+    }, [update, navigate, token]);
 
     return (
         <>
@@ -58,9 +55,8 @@ export default function TodayPage() {
             <TodayContainer>
                 <h1>{today}</h1>
                 {cards.length === 0 ? <h2>Nenhum hábito para hoje</h2> :
-                    status.length === 0 ?
-                        <h2>Nenhum hábito concluído</h2>
-                        :
+                    statusCards.length === 0 ?
+                        <h2>Nenhum hábito concluído</h2> :
                         <h3>{concluded} % dos hábitos concluídos</h3>
                 }
                 <ul>
@@ -76,21 +72,25 @@ const TodayContainer = styled.div`
     background-color: #F2F2F2;
     height: 100%;
     padding: 100px 18px;
+    
     h1 {
         color: #126BA5;
         font-size: 23px;
         line-height: 29px;
     }
+
     h2 {
         color: #BABABA;
         font-size: 18px;
         line-height: 22.5px;
     }
+
     h3 {
         color: #8FC549;
         font-size: 18px;
         line-height: 22.5px;
     }
+
     ul {
         width: 100%;
         margin-top: 18px;
@@ -99,5 +99,4 @@ const TodayContainer = styled.div`
         justify-content: flex-start;
         align-items: center;
     }
-
 `

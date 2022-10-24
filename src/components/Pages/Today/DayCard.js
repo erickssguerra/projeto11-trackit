@@ -1,34 +1,33 @@
-import styled from "styled-components"
-import { AuthContext } from "../../../context/Auth"
-import { useContext } from "react"
-import { URL } from "../../../assets/constants"
-import axios from "axios"
+import { useContext } from "react";
+import styled from "styled-components";
+import axios from "axios";
+
+import { AuthContext } from "../../../context/Auth";
+import { URL } from "../../../assets/constants";
 
 export default function DayCard({ cards }) {
 
-    const { token, setUpdate } = useContext(AuthContext)
+    const { token, setUpdate } = useContext(AuthContext);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
-    }
+    };
 
     function select(boolean, id) {
         if (boolean) {
-            const promise = axios.post(URL + `/habits/${id}/uncheck`, null, config)
+            const promise = axios.post(URL + `/habits/${id}/uncheck`, null, config);
             promise.then((res) => {
-                setUpdate([])
-            })
-            promise.catch((err) => console.log(err.response))
-
+                setUpdate([]);
+            });
+            promise.catch((err) => console.log(err.response));
 
         } else {
-            const promise = axios.post(URL + `/habits/${id}/check`, null, config)
+            const promise = axios.post(URL + `/habits/${id}/check`, null, config);
             promise.then((res) => {
-                setUpdate([])
-            })
-            promise.catch((err) => console.log(err.response))
+                setUpdate([]);
+            });
+            promise.catch((err) => console.log(err.response));
         }
     }
-
 
     return (
         <>
@@ -36,9 +35,8 @@ export default function DayCard({ cards }) {
                 <DayCardContainer
                     isDone={card.done}
                     key={card.id}
-
                 >
-                    <InfoDayCard>
+                    <InfoDayCard data-identifier="today-infos">
                         <h4>{card.name}</h4>
                         <p>Sequência atual:
                             <CurrentSequence
@@ -56,7 +54,11 @@ export default function DayCard({ cards }) {
                             </HighestSequence>
                         </p>
                     </InfoDayCard>
-                    <ion-icon onClick={() => select(card.done, card.id)} name="checkbox"></ion-icon>
+                    <ion-icon
+                        data-identifier="done-habit-btn"
+                        onClick={() => select(card.done, card.id)}
+                        name="checkbox"
+                    />
                 </DayCardContainer>
             )}
         </>
@@ -64,7 +66,6 @@ export default function DayCard({ cards }) {
 }
 
 const DayCardContainer = styled.li`
-    
     width: 100%;
     min-height: 94px;
     background-color: white;
@@ -80,7 +81,6 @@ const DayCardContainer = styled.li`
         color: ${({ isDone }) => isDone ? "#8FC549" : "#E7E7E7"};
         cursor: pointer;
     }
-
 `
 const InfoDayCard = styled.div`
     h4{
@@ -98,15 +98,10 @@ const InfoDayCard = styled.div`
     span {
         margin-left: 2px;
     }
-
- 
 `
 const CurrentSequence = styled.span`
-    color: ${({ isDone }) => isDone ? "#8FC549" : "#666666"};
-    
+    color: ${({ isDone }) => isDone ? "#8FC549" : "#666666"}; 
 `
-
 const HighestSequence = styled.span`
-    color: ${({ isRecord }) => isRecord ? "#8FC549" : "#666666"};
-    
+    color: ${({ isRecord }) => isRecord ? "#8FC549" : "#666666"};   
 `

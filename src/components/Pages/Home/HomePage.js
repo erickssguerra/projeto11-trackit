@@ -1,19 +1,19 @@
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
+
 import { HomeStyle } from "./HomeStyle"
 import logobig from "../../../assets/logo.png"
 import { URL } from "../../../assets/constants";
-import { Link } from "react-router-dom"
-import axios from "axios";
-import { useState, useContext } from "react";
-import { AuthContext } from "../../../context/Auth"
-import { useNavigate } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
+import { AuthContext } from "../../../context/Auth";
 
 export default function HomePage() {
 
-    const { setToken, setImage, setUsername } = useContext(AuthContext)
+    const { setToken, setImage, setUsername } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [form, setForm] = useState({ email: "", password: "" });
-    const navigate = useNavigate()
-    const [isBlocked, setIsBlocked] = useState(false)
+    const [isBlocked, setIsBlocked] = useState(false);
 
     function inputControl(e) {
         setForm({
@@ -24,7 +24,7 @@ export default function HomePage() {
     function login(e) {
         setIsBlocked(true);
         e.preventDefault();
-        const promise = axios.post(URL + "/auth/login", form)
+        const promise = axios.post(URL + "/auth/login", form);
         promise.then((res) => {
             setToken(res.data.token);
             setImage(res.data.image);
@@ -41,6 +41,7 @@ export default function HomePage() {
             <Link to="/"><h1>HabIt</h1></Link>
             <form onSubmit={login}>
                 <input
+                    data-identifier="input-email"
                     placeholder="email"
                     type="email"
                     onChange={inputControl}
@@ -50,6 +51,7 @@ export default function HomePage() {
                     disabled={isBlocked}
                 />
                 <input
+                    data-identifier="input-password"
                     placeholder="senha"
                     type="password"
                     onChange={inputControl}
@@ -58,12 +60,12 @@ export default function HomePage() {
                     name="password"
                     disabled={isBlocked}
                 />
-                <button>
+                <button data-identifier="login-btn">
                     {isBlocked ? <ThreeDots color="#FFF" /> : "Entrar"}
                 </button>
             </form>
             <Link to="/cadastro">
-                <p>Não tem uma conta? Cadastre-se!</p>
+                <p data-identifier="sign-up-action" >Não tem uma conta? Cadastre-se!</p>
             </Link>
 
         </HomeStyle>

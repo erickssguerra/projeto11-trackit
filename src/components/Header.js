@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom"
-import styled from "styled-components"
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { useContext } from "react";
-import { AuthContext } from "../context/Auth"
+import { AuthContext } from "../context/Auth";
 
 
 export default function Header() {
-    const { image, username } = useContext(AuthContext)
+    const { image, username } = useContext(AuthContext);
 
     return (
         <ContainerHeader>
             <Link to="/"><h1>HabIt</h1></Link>
-            <img src={image} alt={username} />
+            <img data-identifier="avatar" src={image} alt={username} />
         </ContainerHeader>
     )
 }

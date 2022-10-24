@@ -6,7 +6,7 @@ export default function Footer({ percentage }) {
 
     return (
         <FooterBar>
-            <h1><Link to="/habitos">Hábitos</Link></h1>
+            <h1 data-identifier="habit-page-action"><Link to="/habitos">Hábitos</Link></h1>
             <Link to="/hoje"><CircularProgressbarWithChildren
                 value={percentage}
                 background
@@ -20,7 +20,7 @@ export default function Footer({ percentage }) {
                 })} npm
             ><p>Hoje</p>
             </CircularProgressbarWithChildren ></Link>
-            <h1><Link to="/historico">Histórico</Link></h1>
+            <h1 data-identifier="historic-page-action"><Link to="/historico">Histórico</Link></h1>
         </FooterBar>
     )
 }
