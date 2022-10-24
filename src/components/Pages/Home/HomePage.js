@@ -32,7 +32,10 @@ export default function HomePage() {
             navigate("/hoje");
             setIsBlocked(false);
         });
-        promise.catch((err) => alert(err.response.data.message));
+        promise.catch((err) => {
+            alert(err.response.data.message);
+            setIsBlocked(false);
+        });
     }
 
     return (
