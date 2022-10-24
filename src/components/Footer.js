@@ -17,7 +17,7 @@ export default function Footer({ percentage }) {
                     pathColor: "#fff",
                     trailColor: "transparent",
                     strokeLinecap: 'round'
-                })} npm
+                })}
             ><p>Hoje</p>
             </CircularProgressbarWithChildren ></Link>
             <h1 data-identifier="historic-page-action"><Link to="/historico">Histórico</Link></h1>
